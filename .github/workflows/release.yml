@@ -5,7 +5,7 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
-  
+
 permissions:
   contents: write
 
@@ -17,8 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Node.js is installed only on the temporary GitHub Actions runner.
-      # You do NOT need Node.js installed on your computer.
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -27,7 +25,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build and publish FluxStudio
-        run: npx electron-builder --win nsis --x64 --publish always
+      - name: Build Windows installer
+        run: npx electron-builder --win nsis --x64
+
+      - name: Upload installer to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            dist/FluxStudio-Setup-${{ github.ref_name }}.exe
+            dist/FluxStudio-Setup-${{ github.ref_name }}.exe.blockmap
+            dist/latest.yml
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
