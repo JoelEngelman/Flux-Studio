@@ -26,15 +26,15 @@ jobs:
         run: npm install
 
       - name: Build Windows installer
-        run: npx electron-builder --win nsis --x64
+        run: npx electron-builder --win nsis --x64 --publish never
 
       - name: Upload installer to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
           files: |
-            dist/FluxStudio-Setup-${{ github.ref_name }}.exe
-            dist/FluxStudio-Setup-${{ github.ref_name }}.exe.blockmap
+            dist/*.exe
+            dist/*.blockmap
             dist/latest.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
