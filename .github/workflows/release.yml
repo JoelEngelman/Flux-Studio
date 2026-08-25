@@ -16,16 +16,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Node.js is installed only on the temporary GitHub Actions runner.
+      # You do NOT need Node.js installed on your computer.
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build FluxStudio
+      - name: Build and publish FluxStudio
         run: npx electron-builder --win nsis --x64 --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
