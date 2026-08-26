@@ -6,5 +6,13 @@ contextBridge.exposeInMainWorld('fluxStudio', {
   maximize: () => ipcRenderer.send('window:maximize'),
   close: () => ipcRenderer.send('window:close'),
   getVersion: () => ipcRenderer.invoke('app:version'),
-  openLatestRelease: () => ipcRenderer.send('open:github')
+  openLatestRelease: () => ipcRenderer.send('open:github'),
+  checkForUpdates: () => ipcRenderer.invoke('update:check'),
+  downloadUpdate: () => ipcRenderer.invoke('update:download'),
+  installUpdate: () => ipcRenderer.send('update:install'),
+  onUpdateStatus: (callback) => {
+    const listener = (_event, data) => callback(data);
+    ipcRenderer.on('update:status', listener);
+    return () => ipcRenderer.removeListener('update:status', listener);
+  }
 });
