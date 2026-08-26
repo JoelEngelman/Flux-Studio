@@ -1,6 +1,6 @@
 {
   "name": "flux-studio",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "FluxStudio — a beautiful desktop playground for the Flux programming language",
   "main": "main.js",
   "author": "Joel Engelman",
